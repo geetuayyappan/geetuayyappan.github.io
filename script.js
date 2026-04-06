@@ -99,10 +99,35 @@ animateElements.forEach(element => {
 });
 
 // ===== CHAT WINDOW FUNCTIONALITY =====
+function playNotificationSound() {
+    // Create audio context and oscillator for notification sound
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    // Create a pleasant notification tone (like a bell)
+    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.1);
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.3);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const chatWindow = document.getElementById('chat-window');
     const minimizeBtn = document.getElementById('minimize-btn');
     const chatIcon = document.getElementById('chat-icon');
+
+    // Play notification sound when page loads
+    setTimeout(() => {
+        playNotificationSound();
+    }, 500);
 
     const toggleMinimize = () => {
         chatWindow.classList.toggle('minimized');
