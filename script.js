@@ -98,6 +98,25 @@ animateElements.forEach(element => {
     observer.observe(element);
 });
 
+// ===== CHAT WINDOW FUNCTIONALITY =====
+document.addEventListener('DOMContentLoaded', () => {
+    const chatWindow = document.getElementById('chat-window');
+    const minimizeBtn = document.getElementById('minimize-btn');
+    const chatIcon = document.getElementById('chat-icon');
+
+    const toggleMinimize = () => {
+        chatWindow.classList.toggle('minimized');
+    };
+
+    if (minimizeBtn) {
+        minimizeBtn.addEventListener('click', toggleMinimize);
+    }
+
+    if (chatIcon) {
+        chatIcon.addEventListener('click', toggleMinimize);
+    }
+});
+
 // ===== SKILL BAR ANIMATION =====
 const skillBars = document.querySelectorAll('.skill-progress');
 
